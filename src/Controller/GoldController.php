@@ -32,25 +32,32 @@ class GoldController extends AbstractController
             $response = curl_exec($apiClient);
             $response = json_decode($response, true);
 
-            $from = "";
-            $to = "";
-            $avg = 0;
 
             if (!is_null($response)) {
+                $avg = 0;
+
                 $from = $response[0]["data"] . "T00:00:00+00:00";
                 $to = $response[sizeof($response) - 1]["data"] . "T00:00:00+00:00";
+
                 foreach ($response as $day) {
                     $avg += $day["cena"];
                 }
                 $avg /= sizeof($response);
                 $avg = number_format((float)$avg, 2, '.', '');
+
+                return $this->json([
+                    'from' => $from,
+                    'to' => $to,
+                    'avg' => $avg
+                ]);
+            }
+            else
+            {
+                return $this->json([
+                    'msg' => "Bad request"
+                ], 400);
             }
 
-            return $this->json([
-                'from' => $from,
-                'to' => $to,
-                'avg' => $avg
-            ]);
         }
     }
 }
