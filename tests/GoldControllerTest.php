@@ -5,6 +5,7 @@ namespace App\Tests;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class GoldControllerTest extends WebTestCase
 {
 
@@ -12,16 +13,16 @@ class GoldControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->xmlHttpRequest('POST', '/api/gold', [
-            'from' => '2001-01-04T00:00:00+00:00',
-            'to' => '2001-01-04T00:00:00+00:00'
+            'from' => '2021-01-04T00:00:00+00:00',
+            'to' => '2021-01-04T00:00:00+00:00'
         ]);
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertResponseIsSuccessful();
         $this->assertIsArray($response);
         $this->assertArrayHasKey('from', $response);
-        $this->assertEquals('2001-01-04T00:00:00+00:00', $response['from']);
+        $this->assertEquals('2021-01-04T00:00:00+00:00', $response['from']);
         $this->assertArrayHasKey('to', $response);
-        $this->assertEquals('2001-01-04T00:00:00+00:00', $response['to']);
+        $this->assertEquals('2021-01-04T00:00:00+00:00', $response['to']);
         $this->assertArrayHasKey('avg', $response);
         $this->assertEquals(228.1, $response['avg']);
     }
